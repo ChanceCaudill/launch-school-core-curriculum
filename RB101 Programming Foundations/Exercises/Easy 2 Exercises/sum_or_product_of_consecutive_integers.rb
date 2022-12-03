@@ -8,12 +8,19 @@ number = gets.chomp.to_i
 puts ">> Enter 's' to compute the sum, 'p' to compute the product."
 s_or_p = gets.chomp.downcase
 
+loop do
+  break if s_or_p == 's'
+  break if s_or_p == 'p'
+  puts "Error: Please enter 's' or 'p'."
+
+  puts ">> Enter 's' to compute the sum, 'p' to compute the product."
+  s_or_p = gets.chomp.downcase
+end
+
 if s_or_p == 's'
   sum = (1..number).to_a.sum
   puts "The sum of the integers between 1 and #{number} is #{sum}."
 elsif s_or_p == 'p'
   product = (1..number).inject(:*)
   puts "The product of the integers between 1 and #{number} is #{product}."
-else
-  "Error: Please enter 's' or 'p'."
 end
