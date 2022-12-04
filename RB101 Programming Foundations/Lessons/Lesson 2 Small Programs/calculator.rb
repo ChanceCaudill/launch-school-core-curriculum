@@ -28,7 +28,7 @@ def operation_to_message(op)
               when '4'
                 'Dividing'
               end
-  return operation
+  operation
 end
 
 prompt("Welcome to Calculator! Enter your name:")
