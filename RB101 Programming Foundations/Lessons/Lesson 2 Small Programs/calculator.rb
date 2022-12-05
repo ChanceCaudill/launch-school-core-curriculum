@@ -5,9 +5,8 @@ Build a command line calculator program that does the following:
 2. asks for the type of operation to perform: add, subtract, multiply or divide
 3. displays the result
 =end
-def prompt(message)
-  puts "=> #{message}"
-end
+require 'yaml'
+MESSAGES = YAML.load_file('calculator_messages.yml')
 
 def valid_number?(input)
   input.to_i.to_s == input
@@ -31,53 +30,45 @@ def operation_to_message(op)
   operation
 end
 
-prompt("Welcome to Calculator! Enter your name:")
+puts MESSAGES['welcome']
 name = ''
 loop do
   name = gets.chomp
   if name.empty?
-    prompt("Make sure to use a valid name.")
+    puts MESSAGES['valid_name']
   else
     break
   end
 end
 
-prompt("Hi #{name}!")
+puts MESSAGES['hi'] + ' ' + "#{name}!"
 
 loop do # main loop
   number1 = ''
   loop do
-    prompt("What's the first number?")
+    puts MESSAGES['first_number']
     number1 = gets.chomp
 
     if valid_number?(number1)
       break
     else
-      prompt("Hmm... that doesn't look like a valid number")
+      puts MESSAGES['valid_number']
     end
   end
 
   number2 = ''
   loop do
-    prompt("What's the second number?")
+    puts MESSAGES['second_number']
     number2 = gets.chomp
 
     if valid_number?(number2)
       break
     else
-      prompt("Hmm... that doesn't look like a valid number")
+      puts MESSAGES['valid_number']
     end
   end
 
-  operator_prompt = <<-MSG
-  What operation would you like to perform? 
-  1) add 
-  2) subract 
-  3) multiply 
-  4) divide
-  MSG
-
-  prompt(operator_prompt)
+  puts MESSAGES['pick_operator']
 
   operator = ''
   loop do
@@ -86,11 +77,11 @@ loop do # main loop
     if %w(1 2 3 4).include?(operator)
       break
     else
-      prompt("Must choose 1, 2, 3, or 4")
+      puts MESSAGES['valid_operator']
     end
   end
 
-  prompt("#{operation_to_message(operator)} the two numbers...")
+  puts "#{operation_to_message(operator)}" + " " + MESSAGES['operating']
 
   result = case operator
            when '1'
@@ -103,11 +94,11 @@ loop do # main loop
              number1.to_f / number2.to_f
            end
 
-  prompt("The result is #{result}")
+  puts MESSAGES['result'] + ' ' + "#{result}"
 
-  prompt("Do you want to perform another calculation? (Y to calculatre again)")
+  puts MESSAGES['repeat']
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end
 
-prompt("Thank you for using the calculator. Good bye!")
+puts MESSAGES['bye']
