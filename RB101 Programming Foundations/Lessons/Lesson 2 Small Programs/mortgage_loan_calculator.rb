@@ -14,7 +14,8 @@ def prompt(str)
 end
 
 def valid_num?(input)
-  input.to_f.to_s == input || input.to_i.to_s == input
+  (input.to_s.start_with?('-') == false && input.to_f.to_s == input) ||
+    (input.to_s.start_with?('-') == false && input.to_i.to_s == input)
 end
 
 =begin
@@ -31,7 +32,7 @@ loop do # main loop
     if valid_num?(loan_amount)
       break
     else
-      prompt("Error: Please enter a number.")
+      prompt("Error: Please enter a positive number.")
     end
   end
 
@@ -42,7 +43,7 @@ loop do # main loop
     if valid_num?(apr)
       break
     else
-      prompt("Error: Please enter a number.")
+      prompt("Error: Please enter a positive number.")
     end
     prompt("What is your APR?")
   end
@@ -54,7 +55,7 @@ loop do # main loop
     if valid_num?(duration_years)
       break
     else
-      prompt("Error: Please enter a number.")
+      prompt("Error: Please enter a positive number.")
     end
   end
 
@@ -66,10 +67,21 @@ loop do # main loop
   puts message
 
   prompt("Would you like to calculate another mortgage payment?")
-  prompt("If so, enter Yes.")
+  prompt("If so, enter Yes. Otherwise, enter No.")
 
-  answer = gets.chomp
-  unless answer.downcase.start_with?('y')
+  answer = ''
+  loop do
+    answer = gets.chomp
+    if answer.downcase == 'yes' || answer.downcase == 'no'
+      break
+    else
+      prompt("Error: Please enter yes or no.")
+    end
+  end
+
+  system('clear')
+
+  unless answer.downcase == 'yes'
     prompt("Have a great day!")
     break
   end
